@@ -15,8 +15,8 @@ struct Model {
 
 fn main() {
 	nannou::app(model).run();
-
 }
+
 pub enum AudioCommand {
 	Play,
 	Pause,
@@ -34,7 +34,7 @@ fn model(app: &App) -> Model {
 	app.new_window()
 		.key_pressed(key_pressed)
 		.view(view)
-		.build();
+		.build().unwrap();
 
 	let audio_host = audio::Host::new();
 	println!("default input dev {:?}", audio_host.default_input_device().unwrap().name().unwrap());
@@ -115,8 +115,8 @@ fn pass_in(model: &mut InputModel, buffer: &Buffer) {
 	}))
 }
 fn pass_out(model: &mut OutputModel, buffer: &mut Buffer) {
-	buffer.frames_mut().for_each(|f| 
-		f.iter_mut().for_each(|s| 
+	buffer.frames_mut().for_each(|f|
+		f.iter_mut().for_each(|s|
 			*s = model.consumer.try_pop().unwrap_or(0.0)))
 }
 
